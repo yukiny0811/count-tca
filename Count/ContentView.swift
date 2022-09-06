@@ -24,8 +24,8 @@ struct CountEnvironment {
     
 }
 
-final class CountReducer {
-    static let countStore: Store<CountState, CountAction> = Store(initialState: CountState(), reducer: Reducer<CountState, CountAction, CountEnvironment>{ state, action, env in
+struct ContentView: View {
+    let countStore: Store<CountState, CountAction> = Store(initialState: CountState(), reducer: Reducer<CountState, CountAction, CountEnvironment>{ state, action, env in
         switch action {
         case .add:
             state.number += 1
@@ -40,11 +40,8 @@ final class CountReducer {
         }
         return .none
     }, environment: CountEnvironment())
-}
-
-struct ContentView: View {
     var body: some View {
-        WithViewStore(CountReducer.countStore) { countViewStore in
+        WithViewStore(self.countStore) { countViewStore in
             VStack {
                 Text(String(countViewStore.number))
                     .padding()
